@@ -1,0 +1,25 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: crawler-server
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: crawler-server
+  template:
+    metadata:
+      labels:
+        app: crawler-server
+    spec:
+      containers:
+      - name: crawler-server
+        image: prantikkumarpatra/carwl-service:v1.0.0
+        ports:
+        - containerPort: 8080
+        livenessProbe:
+          httpGet:
+            path: /healthz
+            port: 8080
+          initialDelaySeconds: 3
+          periodSeconds: 10
